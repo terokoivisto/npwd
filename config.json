@@ -1,24 +1,24 @@
 {
   "PhoneAsItem": {
-    "enabled": false,
-    "exportResource": "my-core-resource",
-    "exportFunction": "myCheckerFunction"
+    "enabled": true,
+    "exportResource": "esx-npwd",
+    "exportFunction": "hasPhone"
   },
   "general": {
-    "useResourceIntegration": false,
+    "useResourceIntegration": true,
     "toggleKey": "f1",
     "toggleCommand": "phone",
-    "defaultLanguage": "en"
+    "defaultLanguage": "fi"
   },
   "profanityFilter": {
     "enabled": false,
     "badWords": ["esx"]
   },
   "database": {
-    "useIdentifierPrefix": false,
-    "playerTable": "users",
-    "identifierColumn": "identifier",
-    "identifierType": "license",
+    "useIdentifierPrefix": true,
+    "playerTable": "characters",
+    "identifierColumn": "id",
+    "identifierType": "citizenid",
     "profileQueries": true,
     "phoneNumberColumn": "phone_number"
   },
@@ -28,12 +28,29 @@
     "sentryEnabled": true
   },
   "defaultContacts": [],
-  "disabledApps": [],
-  "apps": ["pefcl"],
+  "disabledApps": ["MATCH"],
+  "apps": ["npwd_hc_services"],
   "voiceMessage": {
     "enabled": false,
     "authorizationHeader": "PE-Secret",
     "url": "",
     "returnedDataIndexes": ["url"]
+  },
+  "images": {
+    "url": "https://api.imgur.com/3/image",
+    "type": "imgur",
+    "imageEncoding": "jpg",
+    "contentType": "multipart/form-data",
+    "useContentType": true,
+    "authorizationHeader": "Authorization",
+    "authorizationPrefix": "Client-ID",
+    "useAuthorization": true,
+    "returnedDataIndexes": ["data", "link"]
+  },
+  "marketplace": {
+    "persistListings": true
+  },
+  "twitter": {
+    "allowRetweet": false
   }
 }

@@ -3,6 +3,7 @@ local disableKeys
 local DisableControlAction = DisableControlAction
 local Wait = Wait
 local CreateThread = CreateThread
+local DisablePlayerFiring = DisablePlayerFiring
 
 CreateThread(function()
     while true do
@@ -22,6 +23,9 @@ CreateThread(function()
             DisableControlAction(0, 44, true)   -- Cover
             DisableControlAction(0, 47, true)   -- Detonate
             DisableControlAction(0, 55, true)   -- Dive
+            DisableControlAction(0, 68, true)   -- Veh. aim
+            DisableControlAction(0, 69, true)   -- Veh. attack
+            DisableControlAction(0, 70, true)   -- Veh. attack2
             DisableControlAction(0, 75, true)   -- Exit Vehicle
             DisableControlAction(0, 76, true)   -- Vehicle Handbrake
             DisableControlAction(0, 81, true)   -- Next Radio (Vehicle)
@@ -38,6 +42,8 @@ CreateThread(function()
             DisableControlAction(0, 140, true)  -- Melee attack light
             DisableControlAction(0, 200, true)  -- Pause Menu
             DisableControlAction(0, 245, true)  -- Chat
+
+            DisablePlayerFiring(PlayerPedId(), true)
         else
             Wait(100)
         end

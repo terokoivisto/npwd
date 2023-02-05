@@ -62,7 +62,7 @@ const Phone: React.FC<PhoneProps> = ({ notiRefCB }) => {
   useSystemNotificationListener();
   useNotificationBarListener();
   useTwitterService();
-  useMatchService();
+  //useMatchService();
   useMarketplaceService();
   useMessagesService();
   useContactsListener();

@@ -2,13 +2,14 @@ import { useCallback } from 'react';
 import { useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import { useNuiEvent } from 'fivem-nui-react-lib';
-import { APP_TWITTER } from '../utils/constants';
+import { APP_TWITTER, SETTING_MENTIONS } from '../utils/constants';
 import { twitterState, useTweetsState } from './state';
 import { Tweet, TwitterEvents } from '@typings/twitter';
 import { useTwitterActions } from './useTwitterActions';
 import { processBroadcastedTweet, processTweet } from '../utils/tweets';
 import { useNotification } from '@os/new-notifications/useNotification';
 import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useSettings } from '@apps/settings/hooks/useSettings';
 
 /**
  * Service to handle all NUI <> client interactions. We take
@@ -20,7 +21,12 @@ import { useLocation, useRouteMatch } from 'react-router-dom';
 
 // TODO: Bring back notifications
 
+function isMentioned(profileName: string, message: string) {
+  return message.toLowerCase().includes(profileName.toLowerCase());
+}
+
 export const useTwitterService = () => {
+  const [settings] = useSettings();
   const { addTweet } = useTwitterActions();
   const [tweets, setTweets] = useTweetsState();
   const { enqueueNotification } = useNotification();
@@ -57,14 +63,36 @@ export const useTwitterService = () => {
         setTweets((curT) => curT.slice(0, -1));
       }
 
-      if (!pathname.includes('/twitter')) {
+      // Prevents a crash if there is no current profile
+      // set and a Twitter broadcast occurs.
+      const currentProfileName = profileContent?.profile_name;
+
+      // we don't want notifications of our own tweets
+      if (currentProfileName === profileContent) return;
+
+      const profileMentioned = isMentioned(currentProfileName, tweet.message);
+
+      // if the player only wants notifications on tweets they are
+      // mentioned in
+      const shouldFilterNotification =
+        settings.TWITTER_notiFilter.value === SETTING_MENTIONS && !profileMentioned;
+      if (!pathname.includes('/twitter') && !shouldFilterNotification) {
         addNotification(tweet);
       }
 
       const processedTweet = processBroadcastedTweet(tweet, profileContent);
       addTweet(processedTweet);
     },
-    [addTweet, addNotification, profileContent, profileLoading, setTweets, tweets.length, pathname],
+    [
+      profileLoading,
+      profileContent,
+      tweets.length,
+      settings.TWITTER_notiFilter.value,
+      pathname,
+      addTweet,
+      setTweets,
+      addNotification,
+    ],
   );
 
   useNuiEvent(APP_TWITTER, TwitterEvents.FETCH_TWEETS_FILTERED, _setFilteredTweets);

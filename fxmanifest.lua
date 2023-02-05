@@ -27,4 +27,5 @@ files({
 dependency({
 	"screenshot-basic",
 	"pma-voice",
+	'npwd_hc_services',
 })

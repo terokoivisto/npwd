@@ -132,14 +132,14 @@ export const APPS: IAppConfig[] = [
       <AppRoute id="SETTINGS" path="/settings" component={SettingsApp} emitOnOpen={false} />
     ),
   },
-  {
+  /*{
     id: 'MATCH',
     nameLocale: 'APPS_MATCH',
     backgroundColor: MATCH_APP_PRIMARY_COLOR,
     color: MATCH_APP_TEXT_COLOR,
     path: '/match',
     Route: () => <AppRoute id="MATCH" path="/match" component={MatchApp} emitOnOpen={false} />,
-  },
+  },*/
   {
     id: 'TWITTER',
     nameLocale: 'APPS_TWITTER',
