@@ -16,7 +16,8 @@ import { usePhone } from '@os/phone/hooks';
 import { ContactItem } from './ContactItem';
 
 export const ContactList: React.FC = () => {
-  const filteredContacts = useFilteredContacts();
+  const filteredContacts = useFilteredContacts()
+      .sort((a, b) => a.display.localeCompare(b.display));
   const history = useHistory();
   const { initializeCall } = useCall();
   const { findExistingConversation } = useContactActions();
